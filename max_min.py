@@ -6,7 +6,7 @@ import math
 # and minimum values respectively
 
 # filestr
-def max_min_func(filestr, output, index):
+def max_min_func(filestr, index):
     pile_y = 0; pile_x = -1; depth_y = 1; depth_x = -1
 
     with open(filestr, 'r') as file:
@@ -24,8 +24,8 @@ def max_min_func(filestr, output, index):
                 continue 
         file.close()
 
-        string_out = "\n" + repr(index) + " " + repr(pile_x) + \
-        " " + repr(pile_y)+ " " + repr(depth_x) + " " + repr(depth_y)
+        # string_out = "\n" + repr(index) + " " + repr(pile_x) + \
+        # " " + repr(pile_y)+ " " + repr(depth_x) + " " + repr(depth_y)
 
         # if(os.path.exists(output)):
         #     with open(output, "a") as myfile:
