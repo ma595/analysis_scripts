@@ -21,3 +21,6 @@ dispFile = open('disp-steel.csv','w')
 for i in range(0, nn):
      dispFile.write('%10.4E,%10.4E \n'%(displacementData[i][0], displacementData[i][1]))
 dispFile.close()
+
+# os.system('abaqus cae noGUI=C:\\Users\\Samuel\\abaqus-1\\script1.py')
+
