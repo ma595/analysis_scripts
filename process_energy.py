@@ -4,12 +4,19 @@
 from odbAccess import *
 from abaqus import *
 from abaqusConstants import * 
-import sys
-odb = openOdb('output/coating-plastic-kinematic-rough-mesh.odb')
+import sys, os
+
+outpath = os.getenv('OUTPATH')
+outfile = open(outpath,'w')
+print("outpath ", outpath)
+
+output=os.getenv('ROOTODB')
+print("output directory ", output)
+odb = openOdb(output)
+
 step1 = odb.steps['Step-1']
 
 # output_ie='Internal energy: ALLIE PI: COATING-1 in ELSET COATING-SET'
-outfile = open('ie.csv','w')
 
 print(dir(step1))
 # do this to get the history regions:
@@ -40,8 +47,9 @@ plate_se = region_plate.historyOutputs['ALLSE'].data
 ETOTAL = region_all.historyOutputs['ETOTAL'].data
 
 nn = len(coating_ie)
+outfile.write('#t ball_ke ball_ie coating_ke coating_ie plate_ke plate_ie\n')
 for i in range(0,nn):
-    outfile.write('%10.4E, %10.4E %10.4E\n'%(coating_ie[i][0], coating_ie[i][1], plate_ie[i][1]))
+    outfile.write('%10.4E %10.4E %10.4E %10.4E %10.4E %10.4E %10.4E\n'%(coating_ie[i][0], ball_ke[i][1], ball_ie[i][1], coating_ke[i][1], coating_ie[i][1], plate_ke[i][1], plate_ie[i][1]) )
 
 outfile.close()    
 print(coating_ie)
