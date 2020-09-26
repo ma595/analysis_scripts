@@ -6,8 +6,8 @@ from abaqus import *
 from abaqusConstants import * 
 import sys, os
 
-outpath = os.getenv('OUTPATH')
-outfile = open(outpath,'w')
+outpath = os.getenv('OUTDIR')
+outfile = open(os.path.join(outpath,"energy.out"),'w')
 print("outpath ", outpath)
 
 output=os.getenv('ROOTODB')

@@ -5,8 +5,15 @@ from odbAccess import *
 from abaqus import *
 from abaqusConstants import * 
 import sys
+outpath = os.getenv('OUTDIR')
+print("outpath ", outpath)
+
+output=os.getenv('ROOTODB')
+print("output directory ", output)
+odb = openOdb(output)
+
+
 # odb = openOdb('output/coating-plastic-penalty-rough-mesh.odb')
-odb = openOdb('output/test.odb')
 # step1 = odb.steps['Step-1'].frames[-1]
 step1 = odb.steps['Step-1']
 # get displacements of all nodes
@@ -47,7 +54,9 @@ coating_surface_region = coating_instance.nodeSets['COATING-SURFACE']
 coating_surface_dispSubField = step1.frames[-1].fieldOutputs['U'].getSubset(region=coating_surface_region)
 length = len(coating_surface_dispSubField.values)
 
-coating_outfile = open('out/coating_surface-profile.csv', 'w')
+
+
+coating_outfile = open(os.path.join(outpath,'coating_surface-profile.csv'), 'w')
 coating_outfile.write("#originalx originaly dispx dispy\n")
 for i in range(0,length):
     coating_nodeLabel = coating_surface_dispSubField.values[i].nodeLabel
@@ -63,7 +72,8 @@ coating_outfile.close()
 
 coating_lowersurface_region = coating_instance.nodeSets['COATING-LOWERSURFACE']
 coating_lowersurface_dispSubField = step1.frames[-1].fieldOutputs['U'].getSubset(region=coating_lowersurface_region)
-coating_outfile = open('out/coating_lowersurface-profile.csv', 'w')
+coating_outfile = open(os.path.join(outpath,'coating_lowersurface-profile.csv'), 'w')
+length = len(coating_lowersurface_dispSubField.values)
 coating_outfile.write("#originalx originaly dispx dispy\n")
 for i in range(0,length):
     coating_nodeLabel = coating_lowersurface_dispSubField.values[i].nodeLabel
@@ -80,7 +90,7 @@ coating_outfile.close()
 plate_instance = odb.rootAssembly.instances['PLATE-1']
 plate_surface_region = plate_instance.nodeSets['PLATE-SURFACE']
 plate_surface_dispSubField = step1.frames[-1].fieldOutputs['U'].getSubset(region=plate_surface_region)
-plate_outfile = open('out/plate_surface-profile.csv', 'w')
+plate_outfile = open(os.path.join(outpath, 'plate_surface-profile.csv'), 'w')
 plate_outfile.write("#originalx originaly dispx dispy\n")
 for i in range(0,length):
     plate_nodeLabel = plate_surface_dispSubField.values[i].nodeLabel
